@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Header, Card, Form, Button, Message } from 'semantic-ui-react';
+import { Container, Header, Card, Form, Button, Message, Accordion, Icon } from 'semantic-ui-react';
 import { uploadImage } from '../api/uploadImage';
 import 'semantic-ui-css/semantic.min.css';
 import NationalitySelect from '../components/NationalitySelect';
@@ -8,6 +8,7 @@ const UploadImage = () => {
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState<string>("");
   const [nationality, setNationality] = useState<string>("");
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -30,6 +31,11 @@ const UploadImage = () => {
   };
 
   const imagePreviewUrl = image ? URL.createObjectURL(image) : null;
+
+  // Handle accordion expansion
+  const handleAccordionClick = (index: number) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
 
   return (
     <Container
@@ -83,16 +89,43 @@ const UploadImage = () => {
               />
             </Form.Field>
 
-            {/* Image Preview Section */}
-            {imagePreviewUrl && (
-              <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-                <img
-                  src={imagePreviewUrl}
-                  alt="Passport Preview"
-                  style={{ maxWidth: '100%', borderRadius: '4px' }}
-                />
-              </div>
-            )}
+            {/* Image Preview Section using Accordion */}
+            <Accordion>
+              <Accordion.Title
+                active={activeIndex === 0}
+                index={0}
+                onClick={() => handleAccordionClick(0)}
+                style={{
+                  fontWeight: '600',
+                  fontSize: '1.1rem',
+                  padding: '1rem',
+                  backgroundColor: '#f7f7f7',
+                  cursor: 'pointer'
+                }}
+              >
+                <Icon name="dropdown" />
+                {imagePreviewUrl ? "Image Preview" : "No Preview Available"}
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 0}>
+                {imagePreviewUrl ? (
+                  <img
+                    src={imagePreviewUrl}
+                    alt="Passport Preview"
+                    style={{
+                      maxWidth: '100%',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      borderRadius: '4px',
+                      transition: 'transform 0.3s ease-in-out',
+                    }}
+                  />
+                ) : (
+                  <p style={{ textAlign: 'center', color: '#777' }}>
+                    No image selected yet.
+                  </p>
+                )}
+              </Accordion.Content>
+            </Accordion>
 
             {message && (
               <Message
