@@ -32,7 +32,6 @@ const UploadImage = () => {
 
   const imagePreviewUrl = image ? URL.createObjectURL(image) : null;
 
-  // Handle accordion expansion
   const handleAccordionClick = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };

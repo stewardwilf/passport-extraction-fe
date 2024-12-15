@@ -12,5 +12,4 @@ export enum Nationality {
     MX = "Mexico",
     ZA = "South Africa",
     NG = "Nigeria",
-    // Add more nationalities as needed...
   }

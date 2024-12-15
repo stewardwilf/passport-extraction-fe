@@ -7,11 +7,8 @@ export async function uploadImage(image: File, nationality: string): Promise<str
       imageBase64: base64,
       nationality
     };
-  
-    console.log(body);
-  
-    // 2. Pre-flight OPTIONS request
-    const optionsResponse = await fetch('https://zujssf5jhl.execute-api.eu-west-2.amazonaws.com/dev/upload', {
+    
+    await fetch('https://zujssf5jhl.execute-api.eu-west-2.amazonaws.com/dev/upload', {
       method: "OPTIONS",
       headers: {
         "Access-Control-Request-Method": "POST",
@@ -20,10 +17,6 @@ export async function uploadImage(image: File, nationality: string): Promise<str
       }
     });
   
-    const optionsResponseBody = await optionsResponse.text();
-    console.log("OPTIONS response body:", optionsResponseBody);
-  
-    // 3. Actual POST request
     const response = await fetch(`https://zujssf5jhl.execute-api.eu-west-2.amazonaws.com/dev/upload?filename=${image.name}`, {
       method: "POST",
       headers: {
