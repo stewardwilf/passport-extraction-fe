@@ -50,3 +50,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 * Break down into more components and generally improve separation of concerns
 * Increase use of types/ interfaces
 * Accessibility considerations - adding aria-label etc
+* state management lib rather than react useeffect etc
