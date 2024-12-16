@@ -88,7 +88,6 @@ const UploadImage = () => {
               />
             </Form.Field>
 
-            {/* Image Preview Section using Accordion */}
             <Accordion>
               <Accordion.Title
                 active={activeIndex === 0}

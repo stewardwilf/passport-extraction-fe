@@ -3,12 +3,18 @@ export async function uploadImage(image: File, nationality: string): Promise<str
     const base64String = await readFileAsDataURL(image);
     const base64 = base64String.split(",")[1];
   
+    const LAMBDA_ENDPOINT = process.env.NEXT_PUBLIC_LAMBDA_ENDPOINT
     const body = {
       imageBase64: base64,
       nationality
     };
+
+    if (!LAMBDA_ENDPOINT){
+      console.error('LAMBDA_ENDPOINT is undefined')
+      throw new Error('LAMBDA_ENDPOINT is undefined')
+    }
     
-    await fetch('https://zujssf5jhl.execute-api.eu-west-2.amazonaws.com/dev/upload', {
+    await fetch(`${LAMBDA_ENDPOINT}/dev/upload`, {
       method: "OPTIONS",
       headers: {
         "Access-Control-Request-Method": "POST",
@@ -17,7 +23,7 @@ export async function uploadImage(image: File, nationality: string): Promise<str
       }
     });
   
-    const response = await fetch(`https://zujssf5jhl.execute-api.eu-west-2.amazonaws.com/dev/upload?filename=${image.name}`, {
+    const response = await fetch(`${LAMBDA_ENDPOINT}/dev/upload?filename=${image.name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
